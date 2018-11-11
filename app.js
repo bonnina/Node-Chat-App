@@ -1,15 +1,13 @@
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-require('dotenv').config();
 const helmet = require('helmet');
-const passport    = require('passport');
+const passport = require('passport');
 const session = require('express-session');
 const mongo = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
-const LocalStrategy = require('passport-local');
-const bcrypt = require('bcrypt');
+require('dotenv').config();
+const routes = require('./routes/routes.js');
+const auth = require('./auth.js');
 
 // var indexRouter = require('./routes/index');
 var app = express();
@@ -29,8 +27,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(helmet());
 
-//app.use('/public', express.static(path.join(__dirname, 'public')));
-// app.use('/', indexRouter);
 
 mongo.connect(process.env.DATABASE, (err, database) => {
   if(err) {
@@ -38,98 +34,12 @@ mongo.connect(process.env.DATABASE, (err, database) => {
   } else {
       console.log('Successful database connection');
       const db = database.db("user");
-    
-      passport.serializeUser((user, done) => {
-        done(null, user._id);
-      });
-
-      passport.deserializeUser((id, done) => {
-        db.collection('user').findOne({_id: new ObjectID(id)}, (err, doc) => {
-          done(null, doc);
-        });
-      });
-
-      passport.use(new LocalStrategy(
-        function(name, password, done) {
-          db.collection('user').findOne({ username: name }, (err, user) => {
-            console.log('User '+ name +' attempted to log in.');
-            if (err) { return done(err); }
-            if (!user) { return done(null, false); }
-            if (!bcrypt.compareSync(password, user.password)) { return done(null, false); }
-            return done(null, user);
-          });
-        }
-      ));
-     
-      app.route('/')
-        .get((req, res) => {
-          res.render(process.cwd() + '/views/index', {
-            title: 'Hello', 
-            message: 'login', 
-            showLogin: true, 
-            showRegistration: true
-          });
-        });
+      auth(app, db);
+      routes(app, db);
       
-      app.route('/login')
-        .post(passport.authenticate('local', { failureRedirect: '/' }), (req,res) => {
-          res.redirect('/profile');
-        });
-
-      app.route('/profile')
-        .get(checkAuthentification, (req, res) => {
-          res.render(process.cwd() + '/views/profile', {username: req.user.username});
-        });
-      
-      app.route('/register')
-        .post((req, res, next) => {
-        db.collection('user').findOne({ username: req.body.username }, function (err, user) {
-          if(err) {
-              next(err);
-          } else if (user) {
-              res.redirect('/profile');
-          } else {
-            var hash = bcrypt.hashSync(req.body.password, 12);
-              db.collection('user').insertOne(
-                {username: req.body.username,
-                password: hash},
-                (err, doc) => {
-                    if(err) {
-                      res.redirect('/');
-                    } else {
-                      next(null, doc);
-                    }
-                }
-              )
-          }
-      })},
-      passport.authenticate('local', { failureRedirect: '/' }), (req, res, next) => {
-        res.redirect('/profile');
-      }
-    );
-      
-      app.route('/logout')
-        .get((req, res) => {
-            req.logout();
-            res.redirect('/');
-        });
-      
-      app.use((req, res, next) => {
-        res.status(404)
-        .type('text')
-        .send('Not Found');
-        });
-
-      app.listen(process.env.PORT || 3000, () => {
-        console.log("Listening on port " + process.env.PORT);
-      });
+    app.listen(process.env.PORT || 3000, () => {
+      console.log("Listening on port " + process.env.PORT);
+    });
 }});
-
-function checkAuthentification(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/');
-};
 
 module.exports = app;
