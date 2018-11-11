@@ -72,8 +72,14 @@ mongo.connect(process.env.DATABASE, (err, database) => {
         });
 
       app.route('/profile')
+        .get(checkAuthentification, (req, res) => {
+          res.render(process.cwd() + '/views/profile', {username: req.user.username});
+        });
+      
+      app.route('/logout')
         .get((req, res) => {
-          res.render(process.cwd() + '/views/profile');
+            req.logout();
+            res.redirect('/');
         });
 
       app.listen(process.env.PORT || 3000, () => {
@@ -81,5 +87,11 @@ mongo.connect(process.env.DATABASE, (err, database) => {
       });
 }});
 
+function checkAuthentification(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/');
+};
 
 module.exports = app;
