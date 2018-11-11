@@ -1,20 +1,18 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config();
+const helmet = require('helmet');
 const passport    = require('passport');
 const session = require('express-session');
 const mongo = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 const LocalStrategy = require('passport-local');
+const bcrypt = require('bcrypt');
 
 // var indexRouter = require('./routes/index');
 var app = express();
-
-// view engine setup
-//app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
@@ -29,6 +27,8 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(helmet());
+
 //app.use('/public', express.static(path.join(__dirname, 'public')));
 // app.use('/', indexRouter);
 
@@ -55,7 +55,7 @@ mongo.connect(process.env.DATABASE, (err, database) => {
             console.log('User '+ name +' attempted to log in.');
             if (err) { return done(err); }
             if (!user) { return done(null, false); }
-            if (password !== user.password) { return done(null, false); }
+            if (!bcrypt.compareSync(password, user.password)) { return done(null, false); }
             return done(null, user);
           });
         }
@@ -63,7 +63,12 @@ mongo.connect(process.env.DATABASE, (err, database) => {
      
       app.route('/')
         .get((req, res) => {
-          res.render(process.cwd() + '/views/index', {title: 'Hello', message: 'login', showLogin: true});
+          res.render(process.cwd() + '/views/index', {
+            title: 'Hello', 
+            message: 'login', 
+            showLogin: true, 
+            showRegistration: true
+          });
         });
       
       app.route('/login')
@@ -76,10 +81,43 @@ mongo.connect(process.env.DATABASE, (err, database) => {
           res.render(process.cwd() + '/views/profile', {username: req.user.username});
         });
       
+      app.route('/register')
+        .post((req, res, next) => {
+        db.collection('user').findOne({ username: req.body.username }, function (err, user) {
+          if(err) {
+              next(err);
+          } else if (user) {
+              res.redirect('/profile');
+          } else {
+            var hash = bcrypt.hashSync(req.body.password, 12);
+              db.collection('user').insertOne(
+                {username: req.body.username,
+                password: hash},
+                (err, doc) => {
+                    if(err) {
+                      res.redirect('/');
+                    } else {
+                      next(null, doc);
+                    }
+                }
+              )
+          }
+      })},
+      passport.authenticate('local', { failureRedirect: '/' }), (req, res, next) => {
+        res.redirect('/profile');
+      }
+    );
+      
       app.route('/logout')
         .get((req, res) => {
             req.logout();
             res.redirect('/');
+        });
+      
+      app.use((req, res, next) => {
+        res.status(404)
+        .type('text')
+        .send('Not Found');
         });
 
       app.listen(process.env.PORT || 3000, () => {
