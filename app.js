@@ -8,43 +8,36 @@ const passport    = require('passport');
 const session = require('express-session');
 const mongo = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
+const LocalStrategy = require('passport-local');
 
-var indexRouter = require('./routes/index');
+// var indexRouter = require('./routes/index');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-//app.use('/public', express.static(process.cwd() + '/public'));
-app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use('/', indexRouter);
+app.use('/public', express.static(process.cwd() + '/public'));
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+//app.use('/public', express.static(path.join(__dirname, 'public')));
+// app.use('/', indexRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-mongo.connect(process.env.DATABASE, (err, db) => {
+mongo.connect(process.env.DATABASE, (err, database) => {
   if(err) {
     console.log('Database error: ' + err);
   } else {
       console.log('Successful database connection');
+      const db = database.db("user");
     
       passport.serializeUser((user, done) => {
         done(null, user._id);
@@ -55,6 +48,33 @@ mongo.connect(process.env.DATABASE, (err, db) => {
           done(null, doc);
         });
       });
+
+      passport.use(new LocalStrategy(
+        function(name, password, done) {
+          db.collection('user').findOne({ username: name }, (err, user) => {
+            console.log('User '+ name +' attempted to log in.');
+            if (err) { return done(err); }
+            if (!user) { return done(null, false); }
+            if (password !== user.password) { return done(null, false); }
+            return done(null, user);
+          });
+        }
+      ));
+     
+      app.route('/')
+        .get((req, res) => {
+          res.render(process.cwd() + '/views/index', {title: 'Hello', message: 'login', showLogin: true});
+        });
+      
+      app.route('/login')
+        .post(passport.authenticate('local', { failureRedirect: '/' }), (req,res) => {
+          res.redirect('/profile');
+        });
+
+      app.route('/profile')
+        .get((req, res) => {
+          res.render(process.cwd() + '/views/profile');
+        });
 
       app.listen(process.env.PORT || 3000, () => {
         console.log("Listening on port " + process.env.PORT);
