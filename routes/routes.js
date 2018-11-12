@@ -56,6 +56,16 @@ passport.authenticate('local', { failureRedirect: '/' }), (req, res, next) => {
 }
 );
 
+app.route('/auth/github')
+  .get(passport.authenticate('github'));
+  
+app.route('/auth/github/callback')
+  .get((req, res) => {
+    passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
+      res.redirect('/profile');
+    }
+  });
+
 app.route('/logout')
   .get((req, res) => {
       req.logout();
