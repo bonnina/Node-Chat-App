@@ -21,7 +21,8 @@ app.route('/')
 
 app.route('/login')
   .post(passport.authenticate('local', { failureRedirect: '/' }), (req,res) => {
-    res.redirect('/profile');
+   // res.redirect('/profile');
+   res.redirect('/chat');
   });
 
 app.route('/profile')
@@ -52,9 +53,9 @@ app.route('/register')
     }
 })},
 passport.authenticate('local', { failureRedirect: '/' }), (req, res, next) => {
-  res.redirect('/profile');
-}
-);
+  // res.redirect('/profile');
+  res.redirect('/chat');
+});
 
 app.route('/auth/github')
   .get(passport.authenticate('github'));
@@ -62,8 +63,15 @@ app.route('/auth/github')
 app.route('/auth/github/callback')
   .get((req, res) => {
     passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
-      res.redirect('/profile');
+    //  res.redirect('/profile');
+      res.redirect('/chat');
     }
+  });
+
+app.route('/chat')
+  .get(checkAuthentification, (req, res) => {
+    console.log(req.session);
+    res.render(process.cwd() + '/views/chat', {user: req.user});
   });
 
 app.route('/logout')
