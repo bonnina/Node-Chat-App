@@ -11,6 +11,9 @@ const auth = require('./auth.js');
 
 // var indexRouter = require('./routes/index');
 var app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
@@ -41,5 +44,14 @@ mongo.connect(process.env.DATABASE, (err, database) => {
       console.log("Listening on port " + process.env.PORT);
     });
 }});
+
+io.on('connection', socket => {
+  console.log('A user has connected');
+  /*
+  let currentUsers = 0;
+  ++currentUsers;
+  io.emit('user count', currentUsers);
+  */
+});
 
 module.exports = app;
