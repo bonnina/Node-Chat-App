@@ -55,15 +55,18 @@ mongo.connect(process.env.DATABASE, (err, database) => {
       let currentUsers = 0;
 
       io.on('connection', socket => {
-        console.log('User ' + socket.request.user.username + ' connected');
+       // console.log('User ' + socket.request.user.username + ' connected');
         ++currentUsers;
         io.emit('user count', {name: socket.request.user.username, currentUsers, connected: true});
 
       socket.on('disconnect', () => {
-        console.log('User ' + socket.request.user.username + ' disconnected');
         --currentUsers;
         io.emit('user count', {name: socket.request.user.username, currentUsers, connected: false});
       });
+      
+      socket.on('chat message', message => {
+        io.emit('chat message', {name: socket.request.user.username, message: message});
+      })
 
     });
 }});
