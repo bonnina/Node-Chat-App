@@ -2,7 +2,7 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const ObjectID = require('mongodb').ObjectID;
 const LocalStrategy = require('passport-local');
-var GitHubStrategy = require('passport-github').Strategy;
+const GitHubStrategy = require('passport-github').Strategy;
 
 module.exports = function (app, db) {
   passport.serializeUser((user, done) => {
