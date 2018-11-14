@@ -1,8 +1,9 @@
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const helmet = require('helmet');
 const passport = require('passport');
+const passportSocketIo = require('passport.socketio');
 const session = require('express-session');
 const sessionStore = new session.MemoryStore();
 const mongo = require('mongodb').MongoClient;
@@ -42,16 +43,24 @@ mongo.connect(process.env.DATABASE, (err, database) => {
       auth(app, db);
       routes(app, db);
 
-      let currentUsers = 0;
       http.listen(process.env.PORT || 3000);
 
+      io.use(passportSocketIo.authorize({
+        cookieParser: cookieParser,
+        key: 'express.sid',
+        secret: process.env.SESSION_SECRET,
+        store: sessionStore
+      }));
+
+      let currentUsers = 0;
+
       io.on('connection', socket => {
-        console.log('A user has connected');
+        console.log('User ' + socket.request.user.username + ' connected');
         ++currentUsers;
         io.emit('user count', currentUsers);
 
-      socket.on('disconnect', function(){
-        console.log('A user disconnected');
+      socket.on('disconnect', () => {
+        console.log('User ' + socket.request.user.username + ' disconnected');
         --currentUsers;
         io.emit('user count', currentUsers);
       });
