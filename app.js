@@ -4,12 +4,12 @@ var logger = require('morgan');
 const helmet = require('helmet');
 const passport = require('passport');
 const session = require('express-session');
+const sessionStore = new session.MemoryStore();
 const mongo = require('mongodb').MongoClient;
 require('dotenv').config();
 const routes = require('./routes/routes.js');
 const auth = require('./auth.js');
 
-// var indexRouter = require('./routes/index');
 var app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -25,6 +25,8 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
+  key: 'express.sid',
+  store: sessionStore,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -39,19 +41,24 @@ mongo.connect(process.env.DATABASE, (err, database) => {
       const db = database.db("user");
       auth(app, db);
       routes(app, db);
-      
-    app.listen(process.env.PORT || 3000, () => {
-      console.log("Listening on port " + process.env.PORT);
+
+      let currentUsers = 0;
+      http.listen(process.env.PORT || 3000);
+
+      io.on('connection', socket => {
+        console.log('A user has connected');
+        ++currentUsers;
+        io.emit('user count', currentUsers);
+
+      socket.on('disconnect', function(){
+        console.log('A user disconnected');
+        --currentUsers;
+        io.emit('user count', currentUsers);
+      });
+
     });
 }});
 
-io.on('connection', socket => {
-  console.log('A user has connected');
-  /*
-  let currentUsers = 0;
-  ++currentUsers;
-  io.emit('user count', currentUsers);
-  */
-});
+
 
 module.exports = app;
