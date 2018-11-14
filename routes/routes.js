@@ -36,7 +36,7 @@ app.route('/register')
     if(err) {
         next(err);
     } else if (user) {
-        res.redirect('/profile');
+        res.redirect('/chat');
     } else {
       var hash = bcrypt.hashSync(req.body.password, 12);
         db.collection('user').insertOne(
@@ -63,14 +63,13 @@ app.route('/auth/github')
 app.route('/auth/github/callback')
   .get((req, res) => {
     passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
-    //  res.redirect('/profile');
       res.redirect('/chat');
     }
   });
 
 app.route('/chat')
   .get(checkAuthentification, (req, res) => {
-    console.log(req.session);
+   // console.log(req.session);
     res.render(process.cwd() + '/views/chat', {user: req.user});
   });
 
