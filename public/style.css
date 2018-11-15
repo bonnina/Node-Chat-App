@@ -1,20 +1,102 @@
+/*
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+  background: #FADAA3;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; 
+  
+    min-height: 100%; 
+    background: #92c7d6;
+    background-image: -webkit-radial-gradient(top, circle cover, #97d0e1, #427388 80%);
+    background-image: -moz-radial-gradient(top, circle cover, #97d0e1, #427388 80%);
+    background-image: -o-radial-gradient(top, circle cover, #97d0e1, #427388 80%);
+    background-image: radial-gradient(top, circle cover, #97d0e1, #427388 80%);
 
+  }
+*/
 a {
   color: #00B7FF;
 }
 
-.border {
-  border-style: inset;
-  border-width: 1px;
-  margin: 10px;
+body {
+  background: #eee;
 }
 
-.center {
+.main {
+  position: absolute;
+  top: 30%;
+  left: 45%;
+  margin: 6vw;
+  transform: translate(-50%, -50%);
+}
+
+.main-heading {
+  color: #777;
+  text-transform: uppercase;
+}
+
+.main-heading-primary {
+  display: block;
+  font-size: 5.0rem;
+  font-weight: 400;
+  letter-spacing: 33px;
+  animation: moveInLeft 1s ease-out;
+  margin-left: 1vw;
+}
+
+.main-heading-secondary {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  animation: moveInRight 1s ease-out;
+}
+
+button {
+  letter-spacing: 26px;
+  color: hotpink;
+  font-family: sans-serif;
+  background-color: white;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  margin: 1vw;
+  font-size: 2vw;
+  padding-left: 1.5vw;
+  cursor: pointer;
+  border-radius: 0.5vw;
+}
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  
+  80% {
+    transform: translateX(10px);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  
+  80% {
+    transform: translateX(-10px);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
 }
