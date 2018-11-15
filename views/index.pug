@@ -7,28 +7,30 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/public/style.css')
   body
-    h1.border.center Node App
-    h2.center#pug-success-message
-    | #{title}.
-    | This is a Node App
-    p#pug-variable= message
-    
-    
+    .main
+      h1.main-heading
+        .main-heading-primary our chat
+        .main-heading-secondary
+          button#login log in
+          button register
+      
+      
+      .loginForm
+        hr
+        p Login Form
+        form(action='/login', method='post')
+          div
+            label Username:
+            input(type='text', name='username')
+          div
+            label Password:
+            input(type='password', name='password')
+          div
+            input(type='submit', value='Log In')
+        .login.center
+        a(href='/auth/github') Login with Github
 
-    if showLogin
-      hr
-      p Login Form
-      form(action='/login', method='post')
-        div
-          label Username:
-          input(type='text', name='username')
-        div
-          label Password:
-          input(type='password', name='password')
-        div
-          input(type='submit', value='Log In')
-      .login.center
-      a(href='/auth/github') Login with Github
+    
 
     if showRegistration
       hr
