@@ -34,7 +34,7 @@ app.use(passport.session());
 app.use(helmet());
 
 
-mongo.connect(process.env.DATABASE, (err, database) => {
+mongo.connect(process.env.DATABASE, { useNewUrlParser: true }, (err, database) => {
   if(err) {
     console.log('Database error: ' + err);
   } else {
