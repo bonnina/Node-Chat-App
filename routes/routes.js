@@ -15,21 +15,15 @@ app.route('/')
   });
 
 app.route('/login')
-  .post(passport.authenticate('local', { failureRedirect: '/' }), (req,res) => {
-   // res.redirect('/profile');
+  .post(passport.authenticate('local', { failureRedirect: '/loginfailed', failureFlash : true }), (req,res) => {
    res.redirect('/chat');
-  });
-
-app.route('/profile')
-  .get(checkAuthentification, (req, res) => {
-    res.render(process.cwd() + '/views/profile', {username: req.user.username});
   });
 
 app.route('/register')
   .post((req, res, next) => {
   db.collection('user').findOne({ username: req.body.username }, function (err, user) {
     if(err) {
-        next(err);
+      next(err);
     } else if (user) {
         res.redirect('/chat');
     } else {
@@ -39,7 +33,7 @@ app.route('/register')
           password: hash},
           (err, doc) => {
               if(err) {
-                res.redirect('/');
+                res.redirect('/loginfailed');
               } else {
                 next(null, doc);
               }
@@ -47,17 +41,21 @@ app.route('/register')
         )
     }
 })},
-passport.authenticate('local', { failureRedirect: '/' }), (req, res, next) => {
-  // res.redirect('/profile');
+passport.authenticate('local', { failureRedirect: '/loginfailed', failureFlash : true }), (req, res, next) => {
   res.redirect('/chat');
 });
+
+app.route('/loginfailed')
+  .get((req, res) => {
+    res.render(process.cwd() + '/views/index', {message: 'Invalid username or password. Try again'});
+  });
 
 app.route('/auth/github')
   .get(passport.authenticate('github'));
   
 app.route('/auth/github/callback')
   .get((req, res) => {
-    passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
+    passport.authenticate('github', { failureRedirect: '/loginfailed', failureFlash : true  }), (req, res) => {
       res.redirect('/chat');
     }
   });
@@ -80,4 +78,10 @@ app.use((req, res, next) => {
   .send('Not Found');
   });
 
+/*
+app.route('/profile')
+  .get(checkAuthentification, (req, res) => {
+    res.render(process.cwd() + '/views/profile', {username: req.user.username});
+  });
+*/
 }
