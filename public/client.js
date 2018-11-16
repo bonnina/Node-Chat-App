@@ -1,4 +1,15 @@
-$( document ).ready(function() {
+
+$(function() {
+  $('#login').click(function() {
+    $('.loginForm').toggle('slow');
+    $('.registration').hide('slow');
+  });
+
+  $('#register').click(function() {
+    $('.registration').toggle('slow');
+    $('.loginForm').hide('slow');
+  });
+
   const socket = io();
     
   socket.on('user count', data => {
@@ -20,3 +31,4 @@ $( document ).ready(function() {
   });
 
 });
+
