@@ -8,16 +8,15 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/public/style.css')
   body
-    h1.border.center Node App
-    h2.center Socket.IO Chat Room
     .chat.center
+      h1.center OUR CHAT
       p#num-users
       .chat-box
-        ul#messages
+        #messages
         form(action='')
           input#m(autocomplete='off')
-          button Send
-      a#logout(href='/logout') Logout  
+          button send
+      a#logout(href='/logout') logout  
     script(src='https://code.jquery.com/jquery-2.2.1.min.js', integrity='sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=', crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js')
     script(src='/public/client.js')
