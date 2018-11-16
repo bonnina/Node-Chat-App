@@ -11,12 +11,7 @@ module.exports = function (app, db) {
 
 app.route('/')
   .get((req, res) => {
-    res.render(process.cwd() + '/views/index', {
-      title: 'Hello', 
-      message: 'login', 
-      showLogin: true, 
-      showRegistration: true
-    });
+    res.render(process.cwd() + '/views/index');
   });
 
 app.route('/login')
