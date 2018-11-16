@@ -13,6 +13,8 @@ html
         .main-heading-secondary
           button#login log in
           button#register register
+          
+        p= message
       
       .loginForm
         hr
@@ -31,6 +33,7 @@ html
     
       .registration
         hr
+        p= info
         form(action='/register', method='post')
           div
             label username:
