@@ -1,19 +1,10 @@
 body {
-  background: #e6e6e6;
+  background: #eeeeee;
 }
 
 .login-center {
   margin: 1.5vw;
   padding-top: 2vw;
-}
-
-a {
-  color: #ff66b3;
-  text-decoration: none;
-  font-size: 20px;
-  text-transform: none;
-  font-family: sans-serif;
-  letter-spacing: 15px;
 }
 
 .main {
@@ -23,21 +14,9 @@ a {
   transform: translate(-20%, -20%); 
 }
 
-.loginForm, .registration {
-  display: none;
-  text-transform: uppercase; 
-}
-
-hr {
-  margin: 2vh 0 3vh 0;
-}
-
-.main-heading {
-  color: #777;
+.main-heading-primary, h1 {
+  color: #777777;
   text-transform: uppercase;
-}
-
-.main-heading-primary {
   display: block;
   font-size: 5.0rem;
   font-weight: 400;
@@ -56,9 +35,9 @@ hr {
 }
 
 #login, #register {
+  background-color: white;
   letter-spacing: 26px;
   color: #ff66b3;
-  background-color: white;
   font-family: sans-serif;
   margin: 1vw;
   font-size: 25px;
@@ -71,20 +50,34 @@ button {
   border: none;
   box-shadow: none;
   cursor: pointer;
-  border-radius: 0.5vw;
+  border-radius: 7px;
   font-size: 25px;
   letter-spacing: 15px;
-  background-color: #e6e6e6;
+  background-color: transparent;
   color: white;
   font-weight: bold;
   margin-left: -0.5vw;
+}
+
+button:hover {
+  color: #777777;
+  font-weight: normal;
+}
+
+hr {
+  margin: 2vh 0 3vh 0;
+}
+
+.loginForm, .registration {
+  display: none;
+  text-transform: uppercase; 
 }
 
 input {
   outline: none;
   border: none;
   box-shadow: none;
-  border-radius: 0.5vw;
+  border-radius: 7px;
   padding-left: 1.5vw;
   margin: 1vw 1vw 1vw 0;
   font-size: 20px;
@@ -98,7 +91,57 @@ label {
   margin-top: 2vw;
   font-size: 20px;
   letter-spacing: 20px;
-  color: #777;
+  color: #777777;
+}
+
+a {
+  color: #ff66b3;
+  text-decoration: none;
+  font-size: 20px;
+  text-transform: none;
+  font-family: sans-serif;
+  letter-spacing: 15px;
+}
+
+.chat.center {
+  margin: 5vw;
+}
+
+.chat-box {
+  background-color: rgb(230, 230, 230, 0.6);
+  border-radius: 1vw;
+  padding: 2vw;
+  margin: 2vw 0 2vw 0;
+  animation: moveInLeft 1s ease-out;
+}
+
+#num-users {
+  letter-spacing: 20px;
+  color: #ff66b3;
+  font-family: sans-serif;
+  margin: 1vw;
+  font-size: 20px;
+}
+
+#messages {
+  color: #777777;
+  text-transform: uppercase;
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 100;
+  letter-spacing: 0.3vw;
+}
+
+h1{
+  font-size: 4.0rem;
+}
+
+#m {
+  letter-spacing: 12px;
+}
+
+#logout {
+  margin-left: 1vw;
 }
 
 @keyframes moveInLeft {
