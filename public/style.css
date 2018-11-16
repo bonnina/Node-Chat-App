@@ -1,35 +1,35 @@
-/*
 body {
-  background: #FADAA3;
-  display: block;
-  width: 100vw;
-  height: 100vh;
-  
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; 
-  
-    min-height: 100%; 
-    background: #92c7d6;
-    background-image: -webkit-radial-gradient(top, circle cover, #97d0e1, #427388 80%);
-    background-image: -moz-radial-gradient(top, circle cover, #97d0e1, #427388 80%);
-    background-image: -o-radial-gradient(top, circle cover, #97d0e1, #427388 80%);
-    background-image: radial-gradient(top, circle cover, #97d0e1, #427388 80%);
-
-  }
-*/
-a {
-  color: #00B7FF;
+  background: #e6e6e6;
 }
 
-body {
-  background: #eee;
+.login-center {
+  margin: 1.5vw;
+  padding-top: 2vw;
+}
+
+a {
+  color: #ff66b3;
+  text-decoration: none;
+  font-size: 20px;
+  text-transform: none;
+  font-family: sans-serif;
+  letter-spacing: 15px;
 }
 
 .main {
   position: absolute;
-  top: 30%;
-  left: 45%;
-  margin: 6vw;
-  transform: translate(-50%, -50%);
+  top: 30vh;
+  left: 35vw; 
+  transform: translate(-20%, -20%); 
+}
+
+.loginForm, .registration {
+  display: none;
+  text-transform: uppercase; 
+}
+
+hr {
+  margin: 2vh 0 3vh 0;
 }
 
 .main-heading {
@@ -41,7 +41,7 @@ body {
   display: block;
   font-size: 5.0rem;
   font-weight: 400;
-  letter-spacing: 33px;
+  letter-spacing: 2.8vw;
   animation: moveInLeft 1s ease-out;
   margin-left: 1vw;
 }
@@ -52,27 +52,59 @@ body {
   font-weight: bold;
   text-align: center;
   animation: moveInRight 1s ease-out;
+  margin-left: -2vw;
+}
+
+#login, #register {
+  letter-spacing: 26px;
+  color: #ff66b3;
+  background-color: white;
+  font-family: sans-serif;
+  margin: 1vw;
+  font-size: 25px;
+  padding-left: 1.5vw;
+  font-weight: normal;
 }
 
 button {
-  letter-spacing: 26px;
-  color: hotpink;
-  font-family: sans-serif;
-  background-color: white;
   outline: none;
   border: none;
   box-shadow: none;
-  margin: 1vw;
-  font-size: 2vw;
-  padding-left: 1.5vw;
   cursor: pointer;
   border-radius: 0.5vw;
+  font-size: 25px;
+  letter-spacing: 15px;
+  background-color: #e6e6e6;
+  color: white;
+  font-weight: bold;
+  margin-left: -0.5vw;
+}
+
+input {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 0.5vw;
+  padding-left: 1.5vw;
+  margin: 1vw 1vw 1vw 0;
+  font-size: 20px;
+  letter-spacing: 20px;
+  color: #ff66b3;
+  font-family: sans-serif;
+  width: 100%;
+}
+
+label {
+  margin-top: 2vw;
+  font-size: 20px;
+  letter-spacing: 20px;
+  color: #777;
 }
 
 @keyframes moveInLeft {
   0% {
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateX(-110px);
   }
   
   80% {
@@ -88,7 +120,7 @@ button {
 @keyframes moveInRight {
   0% {
     opacity: 0;
-    transform: translateX(100px);
+    transform: translateX(110px);
   }
   
   80% {
