@@ -13,14 +13,15 @@ $(function() {
   const socket = io();
     
   socket.on('user count', data => {
-    $('#num-users').text(data.currentUsers + ' users online');
+    let users = data.currentUsers + (data.currentUsers > 1 ? ' users online' : ' user online');
+    $('#num-users').text(users);
     let message = data.name;
     data.connected ? message += ' has joined the chat.' :  message += ' has left the chat.';
-    $('#messages').append($('<li>').html('<b>'+ message +'<\/b>'));
+    $('#messages').append($('<p>').html('<b>'+ message +'<\/b>'));
   });
   
   socket.on('chat message', data => {
-    $('#messages').append($('<li>').text(data.name+': '+data.message));
+    $('#messages').append($('<p>').text(data.name+': '+data.message));
   });
 
   $('form').submit(function(){
