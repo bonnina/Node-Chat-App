@@ -123,7 +123,7 @@ a {
   font-size: 20px;
 }
 
-#messages {
+#messages, #info {
   color: #777777;
   text-transform: uppercase;
   display: block;
