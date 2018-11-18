@@ -11,7 +11,7 @@ module.exports = function (app, db) {
 
 app.route('/')
   .get((req, res) => {
-    res.render(process.cwd() + '/views/index');
+    res.render(process.cwd() + '/views/index', { message: req.flash('info') });
   });
 
 app.route('/login')
@@ -47,7 +47,8 @@ passport.authenticate('local', { failureRedirect: '/loginfailed', failureFlash :
 
 app.route('/loginfailed')
   .get((req, res) => {
-    res.render(process.cwd() + '/views/index', {message: 'Invalid username or password. Try again'});
+    req.flash('info', 'Invalid username or password.')
+    res.redirect('/');
   });
 
 app.route('/auth/github')
