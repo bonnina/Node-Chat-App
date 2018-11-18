@@ -7,6 +7,7 @@ const passportSocketIo = require('passport.socketio');
 const session = require('express-session');
 const sessionStore = new session.MemoryStore();
 const mongo = require('mongodb').MongoClient;
+const flash = require('connect-flash');
 require('dotenv').config();
 const routes = require('./routes/routes.js');
 const auth = require('./auth.js');
@@ -31,6 +32,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 app.use(helmet());
 
 
