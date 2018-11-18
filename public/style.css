@@ -10,53 +10,56 @@ body {
 .main {
   position: absolute;
   top: 30vh;
-  left: 35vw; 
-  transform: translate(-20%, -20%); 
+  left: 35vw;
+  -webkit-transform: translate(-20%, -20%);
+          transform: translate(-20%, -20%);
 }
 
 .main-heading-primary, h1 {
   color: #777777;
   text-transform: uppercase;
   display: block;
-  font-size: 5.0rem;
-  font-weight: 400;
-  letter-spacing: 2.8vw;
-  animation: moveInLeft 1s ease-out;
   margin-left: 1vw;
+  font-size: 5rem;
+  letter-spacing: 2.8vw;
+  font-weight: 400;
+  -webkit-animation: moveInLeft 1s ease-out;
+          animation: moveInLeft 1s ease-out;
 }
 
 .main-heading-secondary {
   display: block;
-  font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
-  animation: moveInRight 1s ease-out;
+  -webkit-animation: moveInRight 1s ease-out;
+          animation: moveInRight 1s ease-out;
   margin-left: -2vw;
 }
 
 #login, #register {
-  background-color: white;
-  letter-spacing: 26px;
+  background-color: #ffffff;
   color: #ff66b3;
   font-family: sans-serif;
   margin: 1vw;
-  font-size: 25px;
   padding-left: 1.5vw;
+  font-size: 25px;
+  letter-spacing: 26px;
   font-weight: normal;
 }
 
 button {
+  color: #ffffff;
+  background-color: transparent;
+  margin-left: -0.5vw;
+  cursor: pointer;
   outline: none;
   border: none;
-  box-shadow: none;
-  cursor: pointer;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   border-radius: 7px;
   font-size: 25px;
   letter-spacing: 15px;
-  background-color: transparent;
-  color: white;
   font-weight: bold;
-  margin-left: -0.5vw;
 }
 
 button:hover {
@@ -70,37 +73,40 @@ hr {
 
 .loginForm, .registration {
   display: none;
-  text-transform: uppercase; 
+  text-transform: uppercase;
 }
 
 input {
-  outline: none;
-  border: none;
-  box-shadow: none;
-  border-radius: 7px;
+  color: #ff66b3;
   padding-left: 1.5vw;
   margin: 1vw 1vw 1vw 0;
-  font-size: 20px;
-  letter-spacing: 20px;
-  color: #ff66b3;
   font-family: sans-serif;
   width: 100%;
+  outline: none;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border-radius: 7px;
+  font-size: 20px;
+  letter-spacing: 20px;
+  font-weight: normal;
 }
 
 label {
-  margin-top: 2vw;
+  color: #777777;
   font-size: 20px;
   letter-spacing: 20px;
-  color: #777777;
+  font-weight: normal;
 }
 
 a {
   color: #ff66b3;
   text-decoration: none;
-  font-size: 20px;
   text-transform: none;
   font-family: sans-serif;
+  font-size: 20px;
   letter-spacing: 15px;
+  font-weight: normal;
 }
 
 .chat.center {
@@ -108,19 +114,21 @@ a {
 }
 
 .chat-box {
-  background-color: rgb(230, 230, 230, 0.6);
+  background-color: #e6e6e6;
   border-radius: 1vw;
   padding: 2vw;
   margin: 2vw 0 2vw 0;
-  animation: moveInLeft 1s ease-out;
+  -webkit-animation: moveInLeft 1s ease-out;
+          animation: moveInLeft 1s ease-out;
 }
 
 #num-users {
-  letter-spacing: 20px;
   color: #ff66b3;
   font-family: sans-serif;
   margin: 1vw;
   font-size: 20px;
+  letter-spacing: 20px;
+  font-weight: normal;
 }
 
 #messages, #info {
@@ -128,12 +136,8 @@ a {
   text-transform: uppercase;
   display: block;
   font-size: 0.85rem;
-  font-weight: 100;
   letter-spacing: 0.3vw;
-}
-
-h1{
-  font-size: 4.0rem;
+  font-weight: 100;
 }
 
 #m {
@@ -144,34 +148,137 @@ h1{
   margin-left: 1vw;
 }
 
+@-webkit-keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-110px);
+            transform: translateX(-110px);
+  }
+  80% {
+    -webkit-transform: translateX(10px);
+            transform: translateX(10px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+
 @keyframes moveInLeft {
   0% {
     opacity: 0;
-    transform: translateX(-110px);
+    -webkit-transform: translateX(-110px);
+            transform: translateX(-110px);
   }
-  
   80% {
-    transform: translateX(10px);
+    -webkit-transform: translateX(10px);
+            transform: translateX(10px);
   }
-  
   100% {
     opacity: 1;
-    transform: translate(0);
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+
+@-webkit-keyframes moveInRight {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(110px);
+            transform: translateX(110px);
+  }
+  80% {
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(0);
+            transform: translate(0);
   }
 }
 
 @keyframes moveInRight {
   0% {
     opacity: 0;
-    transform: translateX(110px);
+    -webkit-transform: translateX(110px);
+            transform: translateX(110px);
   }
-  
   80% {
-    transform: translateX(-10px);
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px);
   }
-  
   100% {
     opacity: 1;
-    transform: translate(0);
+    -webkit-transform: translate(0);
+            transform: translate(0);
   }
 }
+
+@media screen and (max-width: 1000px) {
+  .main-heading-primary, h1 {
+    font-size: 4rem;
+  }
+  #login, #register {
+    font-size: 18px;
+    letter-spacing: 15px;
+    font-weight: normal;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .main {
+    top: 30vh;
+    left: 30vw;
+  }
+  .main-heading-primary, h1 {
+    font-size: 3rem;
+  }
+  .main-heading-secondary {
+    margin-left: -4vw;
+  }
+  #login, #register {
+    font-size: 14px;
+    letter-spacing: 12px;
+    font-weight: normal;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .main {
+    top: 20vh;
+    left: 30vw;
+  }
+  .main-heading-primary, h1 {
+    font-size: 2rem;
+  }
+  #login, #register, #num-users {
+    font-size: 12px;
+    letter-spacing: 8px;
+    font-weight: normal;
+  }
+  label, input {
+    font-size: 15px;
+    letter-spacing: 14px;
+    font-weight: normal;
+  }
+  a {
+    font-size: 15px;
+    letter-spacing: 10px;
+    font-weight: normal;
+    margin-right: -8vw;
+  }
+  button {
+    font-size: 20px;
+    letter-spacing: 15px;
+    font-weight: normal;
+    margin-left: -2vw;
+  }
+  #messages, #info {
+    font-size: 0.7rem;
+    letter-spacing: 0.3vw;
+    font-weight: normal;
+  }
+}
+/*# sourceMappingURL=style.css.map */
