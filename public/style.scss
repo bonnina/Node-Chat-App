@@ -1,0 +1,232 @@
+$light: #eeeeee;
+$l-gr:  #e6e6e6;
+$gray:  #777777;
+$pink:  #ff66b3;
+$white: #ffffff;
+
+@mixin text($a, $b, $c) {
+  font-size: $a;
+  letter-spacing: $b;
+  font-weight: $c;
+}
+@mixin inp_button($rad) {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  border-radius: $rad;
+}
+
+body {
+  background: $light;
+}
+
+.login-center {
+  margin: 1.5vw;
+  padding-top: 2vw;
+}
+
+.main {
+  position: absolute;
+  top: 30vh;
+  left: 35vw; 
+  transform: translate(-20%, -20%); 
+}
+
+.main-heading-primary, h1 {
+  color: $gray;
+  text-transform: uppercase;
+  display: block;
+  margin-left: 1vw;
+  @include text(5rem, 2.8vw, 400);
+  animation: moveInLeft 1s ease-out;
+}
+
+.main-heading-secondary {
+  display: block;
+  font-weight: bold;
+  text-align: center;
+  animation: moveInRight 1s ease-out;
+  margin-left: -2vw;
+}
+
+#login, #register {
+  background-color: $white;
+  color: $pink;
+  font-family: sans-serif;
+  margin: 1vw;
+  padding-left: 1.5vw;
+  @include text(25px, 26px, normal);
+}
+
+button {
+  color: $white;
+  background-color: transparent;
+  margin-left: -0.5vw;
+  cursor: pointer;
+  @include inp_button(7px);
+  @include text(25px, 15px, bold);
+}
+
+button:hover {
+  color: $gray;
+  font-weight: normal;
+}
+
+hr {
+  margin: 2vh 0 3vh 0;
+}
+
+.loginForm, .registration {
+  display: none;
+  text-transform: uppercase; 
+}
+
+input {
+  color: $pink;
+  padding-left: 1.5vw;
+  margin: 1vw 1vw 1vw 0;
+  font-family: sans-serif;
+  width: 100%;
+  @include inp_button(7px);
+  @include text(20px, 20px, normal)
+}
+
+label {
+  color: $gray;
+  @include text(20px, 20px, normal)
+}
+
+a {
+  color: $pink;
+  text-decoration: none;
+  text-transform: none;
+  font-family: sans-serif;
+  @include text(20px, 15px, normal)
+}
+
+.chat.center {
+  margin: 5vw;
+}
+
+.chat-box {
+  background-color: $l-gr;
+  border-radius: 1vw;
+  padding: 2vw;
+  margin: 2vw 0 2vw 0;
+  animation: moveInLeft 1s ease-out;
+}
+
+#num-users {
+  color: $pink;
+  font-family: sans-serif;
+  margin: 1vw;
+  @include text(20px, 20px, normal)
+}
+
+#messages, #info {
+  color: $gray;
+  text-transform: uppercase;
+  display: block;
+  @include text(0.85rem, 0.3vw, 100)
+}
+
+#m {
+  letter-spacing: 12px;
+}
+
+#logout {
+  margin-left: 1vw;
+}
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-110px);
+  }
+  
+  80% {
+    transform: translateX(10px);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(110px);
+  }
+  
+  80% {
+    transform: translateX(-10px);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .main-heading-primary, h1 {
+    font-size: 4rem;
+  }
+
+  #login, #register {
+    @include text(18px, 15px, normal)
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .main {
+    top: 30vh;
+    left: 30vw; 
+  }
+
+  .main-heading-primary, h1 {
+    font-size: 3rem;
+  }
+
+  .main-heading-secondary {
+    margin-left: -4vw;
+  }
+
+  #login, #register {
+    @include text(14px, 12px, normal);
+  }
+}
+@media screen and (max-width: 570px) {
+  .main {
+    top: 20vh;
+    left: 30vw; 
+  }
+
+  .main-heading-primary, h1 {
+    font-size: 2rem;
+  }
+
+  #login, #register, #num-users {
+    @include text(12px, 8px, normal);
+  }
+
+  label, input {
+    @include text(15px, 14px, normal);
+  }
+
+  a {
+    @include text(15px, 10px, normal);
+    margin-right: -8vw;
+  }
+
+  button {
+    @include text(20px, 15px, normal);
+    margin-left: -2vw;
+  }
+
+  #messages, #info {
+    @include text(0.7rem, 0.3vw, normal);
+  }
+}
